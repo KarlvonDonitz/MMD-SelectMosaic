@@ -43,7 +43,7 @@ texture2D DepthBuffer : RENDERDEPTHSTENCILTARGET <
 
 texture ColorMask: OFFSCREENRENDERTARGET <
     string Description = "Color Mask for SelectColorDisplacement.fx";
-    float4 ClearColor = { 0, 0, 0, 1 };
+    float4 ClearColor = { 1, 1, 1, 1 };
     float ClearDepth = 1.0;
     bool AntiAlias = 0;
     string DefaultEffect = 
@@ -80,7 +80,7 @@ float4 PS_passMain(float2 Tex: TEXCOORD0) : COLOR
 	float2 fintXY=float2(Tex.x*fTexSize.x,Tex.y*fTexSize.y);
 	float2 MosicUV=float2(int(fintXY.x/fmosaicSize.x)*fmosaicSize.x,int(fintXY.y/fmosaicSize.y)*fmosaicSize.y);
 	float2 UVMosaic=float2(MosicUV.x/fTexSize.x,MosicUV.y/fTexSize.y);
-    float Flag = tex2D(Mask,UVMosaic).r;
+    float Flag = tex2D(Mask,UVMosaic).r*tex2D(Mask,Tex);
 	if (Flag == 0) {
       Color = tex2D(ScnSamp,UVMosaic);
 	}
